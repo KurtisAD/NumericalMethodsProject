@@ -5,17 +5,17 @@ function PP1
     f = @(x) sin(x);
     
     % Scheme parameters
-    N = 10; L = pi; dx = L/N; dt = 0.01; tmax = 100; x = dx * (1:N-1);
-    
+    N = 10; L = pi; dx = L/N; dt = 0.01; tmax = 100; x = dx * (1:N-1)
 
     function S1_U = generateS1()
         % The iterative matrix for generating S1
         A = eye(N-1) + dt/(dx^2)*(-2*eye(N-1)+diag(ones(N-2,1),1) + diag(ones(N-2,1),-1));
         
-        S1_U(1,:) = f(x);
+        S1_U(1,:) = f(dx * (1:N-1));
         hold on;
         for i = 2:tmax
-            S1_U(i,:) = S1_U(i-1,:) * A;
+            S1_U(i,:) = A * S1_U(i-1,:);
+            plot(
         end
     end
 end
