@@ -5,7 +5,7 @@ function PP1
     f = @(x) sin(x);
     
     % Scheme parameters
-    N = 10; L = pi; dx = L/N; dt = 0.01; tmax = 1/dt;
+    N = 10; L = pi; dx = L/N; dt = 0.2; tmax = floor(1/dt);
     
     % The initial value for the schemes
     U_0 = f(dx * (1:N-1));
@@ -16,7 +16,10 @@ function PP1
     E1 = calculateError(S1_U,u,dx,dt,N,tmax);
     E2 = calculateError(S2_U,u,dx,dt,N,tmax);
     
-
+    hold on;
+    semilogy(E1, '--b');
+    semilogy(E2, '--r');
+    
     %
     % Function Definitions
     %
@@ -30,8 +33,6 @@ function PP1
         
         for i = 2:tmax
             S1_U(i,:) = S1_U(i-1,:) * A;
-            diff = u(dx*(1:xmax-1),i*dt) - S1_U(i,:);
-            E(i) = norm(diff,inf);
         end
     end
     function S2_U = generateS2(S2_0,dx,dt,xmax,tmax)
@@ -53,10 +54,10 @@ function PP1
         % x is bounded between 1:xmax-1
         
         % initializing
-        E = zeros(1,100);
+        E = zeros(1,tmax);
         
         for i = 1:tmax
-            diff = u(dx*(1:xmax-1),i*dt) - SU(i,:);
+            diff = u(dx*(1:xmax-1),(i-1)*dt) - SU(i,:);
             E(i) = norm(diff,inf);
         end
     end

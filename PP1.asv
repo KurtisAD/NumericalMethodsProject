@@ -5,13 +5,20 @@ function PP1
     f = @(x) sin(x);
     
     % Scheme parameters
-    N = 10; L = pi; dx = L/N; dt = 0.01; tmax = ;
+    N = 10; L = pi; dx = L/N; dt = 1/; tmax = floor(1/dt);
     
     % The initial value for the schemes
     U_0 = f(dx * (1:N-1));
     
     S1_U = generateS1(U_0,dx,dt,N,tmax);
     S2_U = generateS2(U_0,dx,dt,N,tmax);
+
+    E1 = calculateError(S1_U,u,dx,dt,N,tmax);
+    E2 = calculateError(S2_U,u,dx,dt,N,tmax);
+    
+    hold on;
+    semilogy(E1, '--b');
+    semilogy(E2, '--r');
     
 
     %
@@ -42,7 +49,6 @@ function PP1
             matrix = [A_L,(S2_U(i-1,:)*A_R)'];
             S2_U(i,:) = RNG(matrix);
         end
-        E = calculateError(S2_U,u,dx,dt,xmax,tmax);
     end
     function E = calculateError(SU,u,dx,dt,xmax,tmax)
         % t is bounded between 0:tmax, but at t=0 the error is 0
@@ -52,7 +58,7 @@ function PP1
         E = zeros(1,100);
         
         for i = 1:tmax
-            diff = u(dx*(1:xmax-1),i*dt) - SU(i,:);
+            diff = u(dx*(1:xmax-1),(i-1)*dt) - SU(i,:);
             E(i) = norm(diff,inf);
         end
     end
