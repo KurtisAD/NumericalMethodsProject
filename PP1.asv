@@ -45,10 +45,9 @@ function PP1
     figure(2);
     hold on;
     title('Error plot');
-    ylabel('Average error');
-    xlabel('Time');
-    semilogy(dt * (0:tmax-1),E1, '--b');
-    semilogy(dt * (0:tmax-1),E2, '--r');
+    ylabel('Average error at 
+    semilogy(E1, '--b');
+    semilogy(E2, '--r');
     legend('S1','S2');
     hold off;
     
