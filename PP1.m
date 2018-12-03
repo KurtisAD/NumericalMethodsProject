@@ -50,5 +50,6 @@ function PP1
     semilogy(dt * (0:tmax-1),E1, '--b');
     semilogy(dt * (0:tmax-1),E2, '--r');
     legend('S1','S2');
+    set(gca,'yscale','log')
     hold off;
 end
